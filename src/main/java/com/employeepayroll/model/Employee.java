@@ -11,14 +11,13 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  id;
     private String name;
-    private String department;
     private Double salary;
 
     public Employee(){}
 
-    public Employee(String name,String department, Double salary){
+    public Employee(String name, Double salary){
         this.name =name;
-        this.department=department;
+
         this.salary=salary;
     }
 
@@ -46,11 +45,5 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 }

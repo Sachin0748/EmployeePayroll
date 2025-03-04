@@ -1,10 +1,12 @@
 package com.employeepayroll.controller;
 
-import com.employeepayroll.model.Employee;
-import com.employeepayroll.repo.EmployeeRepository;
+import com.employeepayroll.dto.EmployeeDTO;
 import com.employeepayroll.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,37 +16,35 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     // Add a new employee
     @PostMapping()
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.addEmployee(employeeDTO);
     }
 
     // Get all employees
     @GetMapping()
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
     // Get employee by ID
     @GetMapping("/{id}")
-    public Optional<Employee> getEmployeeById(@PathVariable Long id) {
-        return employeeRepository.findById(id);
+    public EmployeeDTO getEmployeeById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     // Update an employee
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
-        employee.setName(employeeDetails.getName());
-        employee.setDepartment(employeeDetails.getDepartment());
-        employee.setSalary(employeeDetails.getSalary());
-        return employeeRepository.save(employee);
+    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.updateEmployee(id, employeeDTO);
     }
+
+    // Delete an employee
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Long id) {
-        employeeRepository.deleteById(id);
+        employeeService.deleteEmployee(id);
     }
 }
